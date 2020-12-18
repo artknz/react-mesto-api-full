@@ -1,0 +1,19 @@
+.popup__save {
+  max-width: 358px;
+  min-height: 50.15px;
+  width: 100%;
+  background: #000000;
+  border-radius: 2px;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  margin-top: 48px;
+}
+
+.popup__save:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+

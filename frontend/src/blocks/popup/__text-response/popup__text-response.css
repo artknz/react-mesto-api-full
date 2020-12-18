@@ -1,0 +1,10 @@
+.popup__text-response {
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #000000;
+  max-width: 358px;
+  min-height: 58px;
+}

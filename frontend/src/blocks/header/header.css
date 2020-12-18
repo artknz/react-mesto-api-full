@@ -1,0 +1,19 @@
+@import url(./__logo/header__logo.css);
+@import url(./__register/header__register.css);
+@import url(./__container/header__container.css);
+@import url(./__logout/header__logout.css);
+@import url(./__email/header__email.css);
+
+.header {
+  max-width: 882px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 45px;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+}
+
+@media screen and (max-width: 640px) {
+  .header {
+    padding-top: 28px;
+  }
+}

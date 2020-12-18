@@ -1,0 +1,30 @@
+.profile__edit-button {
+  background-image: url(../../../images/pencil-icon.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #000000;
+  max-width: 24px;
+  min-height: 24px;
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 17px;
+  border: 1px solid #ffffff;
+  box-sizing: border-box;
+  cursor: pointer;
+  box-shadow: none;
+  outline: none;
+}
+
+.profile__edit-button:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 640px) {
+  .profile__edit-button {
+    margin-left: 1px;
+    margin-bottom: 5px;
+    max-width: 18px;
+    min-height: 18px;
+  }
+}

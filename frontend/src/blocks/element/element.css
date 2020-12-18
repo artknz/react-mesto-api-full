@@ -1,0 +1,18 @@
+@import url(./__image/element__image.css);
+@import url(./__title/element__title.css);
+@import url(./__text/element__text.css);
+@import url(./__like/element__like.css);
+@import url(./__delete/element__delete.css);
+@import url(./_liked/element_liked.css);
+@import url(./__like-count/element__like-count.css);
+@import url(./__likes/element__likes.css);
+@import url(./__delete/_true/element__delete_true.css);
+
+.element {
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 282px;
+  max-height: 361px;
+  width: 100%;
+}

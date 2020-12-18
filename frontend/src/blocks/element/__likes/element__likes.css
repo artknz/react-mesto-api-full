@@ -1,0 +1,6 @@
+.element__likes {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 20.76px;
+}
