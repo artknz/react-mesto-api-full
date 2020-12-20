@@ -1,8 +1,9 @@
+/* eslint-disable object-curly-newline */
 const router = require('express').Router();
-const { getUsers, getProfile, createUser } = require('../controllers/users');
+const { getUsers, getProfile, getUsersMe } = require('../controllers/users');
 
-router.get('/users', getUsers);
-router.get('/users/:id', getProfile);
-router.post('/users', createUser);
+router.get('/', getUsers);
+router.get('/me', getUsersMe);
+router.get('/:id', getProfile);
 
 module.exports = router;
