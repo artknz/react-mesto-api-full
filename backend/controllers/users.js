@@ -2,50 +2,41 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const NotFoundError = require('../errors/not-found-err');
+const Unauthorized = require('../errors/unauthorized');
+const BadRequestError = require('../errors/bad-request');
+const InternalServerError = require('../errors/internal-server-error');
 
-const getUsers = (req, res) => {
+const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.status(200).send(users))
-    .catch((err) => res.status(500).json({ message: `на сервере произошла ошибка ${err}` }));
+    .catch(() => next(new InternalServerError('Ошибка сервера')));
 };
 
-const getUsersMe = (req, res) => {
-  console.log(req.user);
+const getUsersMe = (req, res, next) => {
   const id = req.user._id;
   User.findById(id)
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: 'нет пользователя с таким id' });
+        throw new NotFoundError('Нет пользователя с таким id');
       }
       res.status(200).send(user);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(400).send({ message: 'невалидный id' });
-      } else {
-        res.status(500).json({ message: `на сервере произошла ошибка ${err}` });
-      }
-    });
+    .catch(next);
 };
 
-const getProfile = (req, res) => {
+const getProfile = (req, res, next) => {
   User.findOne({ _id: req.params.id })
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: 'нет пользователя с таким id' });
+        throw new NotFoundError('Нет пользователя с таким id');
       }
       res.status(200).send(user);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(400).send({ message: 'невалидный id' });
-      } else {
-        res.status(500).json({ message: `на сервере произошла ошибка ${err}` });
-      }
-    });
+    .catch(next);
 };
 
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
     .then((hash) => User.create({
       name: req.body.name,
@@ -55,16 +46,10 @@ const createUser = (req, res) => {
       password: hash,
     }))
     .then((user) => res.status(200).send({ data: user }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Некорректные данные' });
-      } else {
-        (res.status(500).json({ message: `На сервере произошла ошибка ${err}` }));
-      }
-    });
+    .catch(() => next(new BadRequestError('Некорректные данные')));
 };
 
-const login = (req, res) => {
+const login = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
@@ -72,9 +57,7 @@ const login = (req, res) => {
       const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
       res.send({ token });
     })
-    .catch((err) => {
-      res.status(401).send({ message: err.message });
-    });
+    .catch(() => next(new Unauthorized('Неверный логин или пароль')));
 };
 
 module.exports = { getUsers, getUsersMe, getProfile, createUser, login };

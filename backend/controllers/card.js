@@ -1,34 +1,30 @@
 const Card = require('../models/card');
+const NotFoundError = require('../errors/bad-request');
+const InternalServerError = require('../errors/internal-server-error');
 
-const getCards = (req, res) => {
+const getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.status(200).send(cards))
-    .catch((err) => res.status(500).json({ message: `на сервере произошла ошибка ${err}` }));
+    .catch(() => next(new InternalServerError('Ошибка сервера')));
 };
 
-const createCard = (req, res) => {
+const createCard = (req, res, next) => {
   const { _id } = req.user;
   const { name, link } = req.body;
   Card.create({ name, link, owner: _id })
     .then((card) => res.status(200).send({ data: card }))
-    .catch((err) => res.status(500).json({ message: `на сервере произошла ошибка ${err}` }));
+    .catch(() => next(new InternalServerError('Ошибка сервера')));
 };
 
-const deleteCard = (req, res) => {
+const deleteCard = (req, res, next) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (!card) {
-        res.status(404).send({ message: 'нет карточки с таким id' });
+        throw new NotFoundError('нет карточки с таким id');
       }
       res.status(200).send(card);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(400).send({ message: 'некорректные данные' });
-      } else {
-        res.status(500).json({ message: `на сервере произошла ошибка ${err}` });
-      }
-    });
+    .catch(next);
 };
 
 module.exports = { getCards, createCard, deleteCard };
