@@ -1,4 +1,4 @@
-export const BASE_URL = `${window.location.protocol}${process.env.REACT_APP_API_URL || '//art.knz.students.nomoreparties.xyz'}`;
+export const BASE_URL = `${window.location.protocol}${process.env.REACT_APP_API_URL || '//localhost:3000'}`;
 
 const checkResponse = response => response.ok ? response.json() : Promise.reject(`Ошибка: ${response.status}`);
 

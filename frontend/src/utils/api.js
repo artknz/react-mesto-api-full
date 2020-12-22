@@ -61,9 +61,8 @@ export default class Api {
 }
 
 export const api = new Api({
-  baseUrl: `${window.location.protocol}${process.env.REACT_APP_API_URL || '//art.knz.students.nomoreparties.xyz'}`,
+  baseUrl: `${window.location.protocol}${process.env.REACT_APP_API_URL || '//localhost:3000'}`,
   headers: {
-    // authorization: `Bearer ${localStorage.getItem('jwt')}`,
     "Content-Type": "application/json"
   }
 })
