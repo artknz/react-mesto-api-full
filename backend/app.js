@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
@@ -14,17 +15,21 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
-const PORT = 3000;
+const { PORT = 3003 } = process.env;
+// const PORT = 3003;
+
+const allowedCors = [
+  'http://artknz.students.nomoredomains.xyz',
+  'https://artknz.students.nomoredomains.xyz',
+  'http://localhost:3000',
+];
+
+app.use(cors({
+  origin: allowedCors,
+}));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
-  next();
-});
 
 app.use(requestLogger);
 

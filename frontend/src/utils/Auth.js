@@ -1,6 +1,6 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = `${window.location.protocol}${process.env.REACT_APP_API_URL || '//localhost:3003'}`;
 
-const checkResponse = response => response.ok ? response.json() : Promise.reject(`Ошибка 111: ${response.status}`);
+const checkResponse = response => response.ok ? response.json() : Promise.reject(`Ошибка: ${response.status}`);
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {

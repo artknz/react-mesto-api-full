@@ -14,15 +14,21 @@ export default class Api {
   getInitialCards() {
     return fetch(`${this.baseUrl}/cards`, {
       method: 'GET',
-      headers: this.headers
+      headers: {
+        ...this.headers,
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      }
     })
     .then(this._statusResponse);
   }
 
-  addNewCard({name, link}) {
+  addNewCard({ name, link }) {
     return fetch(`${this.baseUrl}/cards`, {
       method: 'POST',
-      headers: this.headers,
+      headers: {
+        ...this.headers,
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
       body: JSON.stringify({
         name,
         link
@@ -31,18 +37,24 @@ export default class Api {
     .then(this._statusResponse);
   }
 
-  changeLikeCardStatus(id, like) {
-    return fetch(`${this.baseUrl}/cards/likes/${id}`, {
-      method: like ? 'PUT' : 'DELETE',
-      headers: this.headers,
-    })
-    .then(this._statusResponse);
-  }
+  // changeLikeCardStatus(id, like) {
+  //   return fetch(`${this.baseUrl}/cards/likes/${id}`, {
+  //     method: like ? 'PUT' : 'DELETE',
+  //     headers: {
+  //       ...this.headers,
+  //       'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+  //     },
+  //   })
+  //   .then(this._statusResponse);
+  // }
 
   deleteCard(id) {
     return fetch(`${this.baseUrl}/cards/${id}`, {
       method: 'DELETE',
-      headers: this.headers,
+      headers: {
+        ...this.headers,
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
     })
     .then(this._statusResponse);
   }
@@ -50,7 +62,10 @@ export default class Api {
   getUserInfo() {
     return fetch(`${this.baseUrl}/users/me`, {
       method: 'GET',
-      headers: this.headers
+      headers: {
+        ...this.headers,
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      }
     })
     .then(this._statusResponse);
   }
@@ -58,7 +73,10 @@ export default class Api {
   editUserInfo({name, about}) {
     return fetch(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
-      headers: this.headers,
+      headers: {
+        ...this.headers,
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
       body: JSON.stringify({
         name,
         about
@@ -70,7 +88,10 @@ export default class Api {
   editUserAvatar({avatar}) {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this.headers,
+      headers: {
+        ...this.headers,
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
       body: JSON.stringify({
         avatar
       })
@@ -80,9 +101,9 @@ export default class Api {
 }
 
 export const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-14",
+  baseUrl: `${window.location.protocol}${process.env.REACT_APP_API_URL || '//localhost:3003'}`,
   headers: {
-    authorization: "6492f791-b5eb-4368-9c1b-0fccf5018796",
+    // authorization: `Bearer ${localStorage.getItem('jwt')}`,
     "Content-Type": "application/json"
   }
 })

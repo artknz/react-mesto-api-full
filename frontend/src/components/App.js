@@ -49,7 +49,8 @@ const App = () => {
   }
 
   function handleUpdateUser(data) {
-    api.editUserInfo(data).then((data) => {
+    api.editUserInfo(data)
+    .then((data) => {
       setCurrentUser(data)
       closeAllPopups()
     })
@@ -64,18 +65,22 @@ const App = () => {
     .catch((err) => console.log(err))
   }
 
-  function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+  // function handleCardLike(card) {
+  //   const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      const newCards = cards.map((c) => c._id === card._id ? newCard : c);
-      setCards(newCards);
-    })
-    .catch((err) => console.log(err))
-  }
+  //   api.changeLikeCardStatus(card._id, !isLiked)
+  //   .then((newCard) => {
+  //     console.log(newCard)
+  //     const newCards = cards.map((c) => c._id === card._id ? newCard : c);
+  //     setCards(newCards);
+  //   })
+  //   .catch((err) => console.log(err))
+  // }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
+    console.log(card)
+    api.deleteCard(card._id)
+    .then(() => {
       const newCards = cards.filter((c) => c._id !== card._id)
       setCards(newCards);
     })
@@ -83,8 +88,9 @@ const App = () => {
   }
 
   function handleAddPlaceSubmit(newCard) {
-    api.addNewCard(newCard).then((newCard) => {
-      setCards([newCard, ...cards]);
+    api.addNewCard(newCard)
+      .then((newCard) => {
+      setCards([newCard.data, ...cards]);
       closeAllPopups()
     })
     .catch((err) => console.log(err))
@@ -115,7 +121,7 @@ const App = () => {
 
       auth.getContent(jwt).then((res) => {
         setUserData({
-          email: res.data.email,
+          email: res.email,
         });
       })
       .catch(err => console.log(err))
@@ -156,7 +162,7 @@ const App = () => {
     const jwt = localStorage.getItem('jwt')
     if (jwt) {
       auth.getContent(jwt).then((res) => {
-        if (res.data.email) {
+        if (res.email) {
           setLoggedIn(true);
           history.push('/');
         }
@@ -191,7 +197,7 @@ const App = () => {
           onEditAvatar={handleEditAvatarClick}
           onCardClick={setSelectedCard}
           cards={cards}
-          onCardLike={handleCardLike}
+          // onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
         />
         <Route path="/signup">

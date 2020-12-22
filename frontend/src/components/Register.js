@@ -22,9 +22,9 @@ const Register = ({ handleRegister }) => {
     handleRegister(email, password)
   }
   return(
-    <div onSubmit={handleSubmit} className="auth">
+    <div className="auth">
       <p className="auth__welcome">Регистрация</p>
-      <form className="auth__form">
+      <form onSubmit={handleSubmit} className="auth__form">
         <input id="username" required name="email" placeholder="Email" type="text" value={data.username} onChange={handleChange} />
         <input id="password" required name="password" placeholder="Пароль" type="password" value={data.password} onChange={handleChange} />
         <div className="auth__button-container">

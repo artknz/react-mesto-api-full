@@ -17,6 +17,7 @@ const getUsersMe = (req, res, next) => {
   const id = req.user._id;
   User.findById(id)
     .then((user) => {
+      console.log(user);
       if (!user) {
         throw new NotFoundError('Нет пользователя с таким id');
       }
@@ -24,6 +25,13 @@ const getUsersMe = (req, res, next) => {
     })
     .catch(next);
 };
+
+const updateProfile = (req, res, next) => {
+  const { name, about } = req.body;
+  User.findByIdAndUpdate()
+  .then(() => {
+    
+  })
 
 const getProfile = (req, res, next) => {
   User.findOne({ _id: req.params.id })
