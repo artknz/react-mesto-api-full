@@ -28,29 +28,4 @@ const deleteCard = (req, res, next) => {
     .catch(next);
 };
 
-// const deleteCard = (req, res, next) => {
-//   const { _id } = req.params;
-//   cardModel.findById(_id)
-//     .then((card) => {
-//       if (req.user._id !== card.owner.toString()) {
-//         throw new Unauthorized('Удалять карточку может только ее создатель')
-//       }
-//       if (!card) {
-//         throw new NotFoundError('Карточка с таким id не обнаружена')
-//       }
-//       cardModel.findByIdAndRemove(_id)
-//         .then((card) => {
-//           res.send({ data: card });
-//         })
-//         .catch(next);
-//     })
-//     .catch(err => {
-//       if (err.kind === 'ObjectId') {
-//         next(...) // неверный айди
-//       } else {
-//         next(err)
-//       }
-//     })
-// }
-
 module.exports = { getCards, createCard, deleteCard };

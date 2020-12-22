@@ -26,13 +26,6 @@ const getUsersMe = (req, res, next) => {
     .catch(next);
 };
 
-const updateProfile = (req, res, next) => {
-  const { name, about } = req.body;
-  User.findByIdAndUpdate()
-  .then(() => {
-    
-  })
-
 const getProfile = (req, res, next) => {
   User.findOne({ _id: req.params.id })
     .then((user) => {

@@ -13,7 +13,7 @@
   cursor: pointer;
 }
 
-.profile__avatar:after {
+/* .profile__avatar:after {
   content: '';
 	opacity: 0;
 	transition: opacity 0.5s ease-in-out;
@@ -50,4 +50,4 @@
   z-index: 1;
 	background: url(../../../images/pancil-avatar.svg);
 	opacity: 1;
-}
+} */

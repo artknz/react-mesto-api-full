@@ -37,17 +37,6 @@ export default class Api {
     .then(this._statusResponse);
   }
 
-  // changeLikeCardStatus(id, like) {
-  //   return fetch(`${this.baseUrl}/cards/likes/${id}`, {
-  //     method: like ? 'PUT' : 'DELETE',
-  //     headers: {
-  //       ...this.headers,
-  //       'Authorization': `Bearer ${localStorage.getItem('jwt')}`
-  //     },
-  //   })
-  //   .then(this._statusResponse);
-  // }
-
   deleteCard(id) {
     return fetch(`${this.baseUrl}/cards/${id}`, {
       method: 'DELETE',
@@ -69,39 +58,10 @@ export default class Api {
     })
     .then(this._statusResponse);
   }
-
-  editUserInfo({name, about}) {
-    return fetch(`${this.baseUrl}/users/me`, {
-      method: 'PATCH',
-      headers: {
-        ...this.headers,
-        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
-      },
-      body: JSON.stringify({
-        name,
-        about
-      })
-    })
-    .then(this._statusResponse);
-  }
-
-  editUserAvatar({avatar}) {
-    return fetch(`${this.baseUrl}/users/me/avatar`, {
-      method: 'PATCH',
-      headers: {
-        ...this.headers,
-        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
-      },
-      body: JSON.stringify({
-        avatar
-      })
-    })
-    .then(this._statusResponse);
-  }
 }
 
 export const api = new Api({
-  baseUrl: `${window.location.protocol}${process.env.REACT_APP_API_URL || '//localhost:3003'}`,
+  baseUrl: `${window.location.protocol}${process.env.REACT_APP_API_URL || '//art.knz.students.nomoreparties.xyz'}`,
   headers: {
     // authorization: `Bearer ${localStorage.getItem('jwt')}`,
     "Content-Type": "application/json"

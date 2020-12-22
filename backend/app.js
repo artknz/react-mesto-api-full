@@ -15,8 +15,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
-const { PORT = 3003 } = process.env;
-// const PORT = 3003;
+const { PORT = 3000 } = process.env;
 
 const allowedCors = [
   'http://artknz.students.nomoredomains.xyz',
@@ -32,6 +31,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.use('/', require('./routes/index'));
 
