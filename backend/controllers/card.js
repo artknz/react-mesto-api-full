@@ -22,11 +22,11 @@ const deleteCard = (req, res, next) => {
 
   Card.findById(cardId)
     .then((card) => {
-      if (req.user._id !== card.owner.toString()) {
-        throw new Forbidden('Удалять карточку может только ее создатель');
-      }
       if (!card) {
         throw new NotFoundError('Карточка с таким id не обнаружена');
+      }
+      if (req.user._id !== card.owner.toString()) {
+        throw new Forbidden('Удалять карточку может только ее создатель');
       }
       Card.findByIdAndRemove(cardId)
         .then(() => {
