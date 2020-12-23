@@ -6,9 +6,13 @@ router.get('/', getCards);
 router.post('/', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required(),
+    link: Joi.string().required().pattern(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/),
   }),
 }), createCard);
-router.delete('/:cardId', deleteCard);
+router.delete('/:cardId', celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().required().min(24).hex,
+  }),
+}), deleteCard);
 
 module.exports = router;

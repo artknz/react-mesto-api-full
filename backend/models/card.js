@@ -12,7 +12,7 @@ const userCards = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return /^http[s]?:\/\/\w+/.test(v);
+        return /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/gm.test(v);
       },
       message: 'not a valid link',
     },
