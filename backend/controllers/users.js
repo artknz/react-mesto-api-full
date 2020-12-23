@@ -6,6 +6,7 @@ const NotFoundError = require('../errors/not-found-err');
 const Unauthorized = require('../errors/unauthorized');
 const BadRequestError = require('../errors/bad-request');
 const InternalServerError = require('../errors/internal-server-error');
+const Conflict = require('../errors/conflict');
 
 const getUsers = (req, res, next) => {
   User.find({})
@@ -17,7 +18,6 @@ const getUsersMe = (req, res, next) => {
   const id = req.user._id;
   User.findById(id)
     .then((user) => {
-      console.log(user);
       if (!user) {
         throw new NotFoundError('Нет пользователя с таким id');
       }
@@ -38,6 +38,9 @@ const getProfile = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
+  // if (req.body.password.contains(' ')) {
+  //   return next(new BadRequestError('Некорректные данные'));
+  // }
   bcrypt.hash(req.body.password, 10)
     .then((hash) => User.create({
       name: req.body.name,
@@ -46,8 +49,22 @@ const createUser = (req, res, next) => {
       email: req.body.email,
       password: hash,
     }))
-    .then((user) => res.status(200).send({ data: user }))
-    .catch(() => next(new BadRequestError('Некорректные данные')));
+    .then((user) => res.status(200).send({ data: {
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      _id: user._id,
+      email: user.email,
+    } }))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Некорректные данные'));
+      } else if (err.code === 11000) {
+        next(new Conflict('Такой пользователь уже существует'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 const login = (req, res, next) => {
